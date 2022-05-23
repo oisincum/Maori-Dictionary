@@ -6,8 +6,9 @@
 
 {% block main %}
     <div class="">
-
-    <h2>{{ cat_data[0][1] }}</h2>
+    <h2>{{ words_found[0][1] }} - {{ words_found[0][2] }}</h2>
+    <h2>Definition - {{ words_found[0][4] }}</h2>
+    <h3>Level - {{ words_found[0][5] }}</h3>
     <br>
 
     <table>
@@ -24,4 +25,6 @@
         </tr>
     {% endfor %}
     </table>
+
+    <h3>submitted by {{ words_found[0][7] }} on {{ words_found[0][8] }}</h3>
 {% endblock %}
