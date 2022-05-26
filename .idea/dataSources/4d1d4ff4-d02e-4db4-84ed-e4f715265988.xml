@@ -1449,5 +1449,11 @@
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
+    <foreign-key id="522" parent="174">
+      <ColNames>editor_id</ColNames>
+      <RefTableName>user</RefTableName>
+      <RefKeyName>user_pk</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
   </database-model>
 </dataSource>

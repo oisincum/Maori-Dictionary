@@ -3,25 +3,22 @@ import sqlite3
 from sqlite3 import Error
 from datetime import datetime
 
+#imports everything extra needed
+
 app = Flask(__name__)
-
 DATABASE = "dictionary.db"
-
 app.secret_key = "secret+key"
 
+#all of the functions
 
 def create_connection(db_file):
-    """
-    create a connection with the database
-    parameter: name of database file
-    returns: a connection to the file
-    """
     try:
         connection = sqlite3.connect(db_file)
         return connection
     except Error as e:
         print(e)
     return None
+#creates an initial connection to the database
 
 
 def get_categories():
@@ -59,10 +56,19 @@ def yes_logged_in():
         return False
 
 
+def is_teacher():
+    if session.get('teacher') == 1:
+        print("Is a teacher")
+        return True
+    else:
+        print("is not a teacher")
+        return False
+
+
 @app.route('/')
 def render_homepage():
     return render_template('home.html', categories=get_categories(), user_data=get_user_data(session.get('user_id')),
-                           logged_in=yes_logged_in())
+                           logged_in=yes_logged_in(), teacher=is_teacher())
 
 
 @app.route('/category/<cat_id>')
@@ -84,7 +90,7 @@ def render_category_page(cat_id):
 
     return render_template('category.html', categories=get_categories(), words_found=words_list,
                            user_data=get_user_data(session.get('user_id')), logged_in=yes_logged_in(),
-                            cat_data=cur_category)
+                            cat_data=cur_category, teacher=is_teacher())
 
 
 @app.route('/word/<word_id>')
@@ -96,10 +102,17 @@ def render_word_page(word_id):
     cur = con.cursor()
     cur.execute(query, (word_id,))
     words_list = cur.fetchall()
+
+    query = "SELECT * FROM user WHERE id=?"
+    cur = con.cursor()
+    cur.execute(query, (words_list[0][7],))
+    found_user = cur.fetchall()
+
     con.close()
 
     return render_template('word.html', categories=get_categories(), words_found=words_list,
-                           user_data=get_user_data(session.get('user_id')), logged_in=yes_logged_in())
+                           user_data=get_user_data(session.get('user_id')), word_user_data=found_user,
+                           logged_in=yes_logged_in(), teacher=is_teacher())
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -142,7 +155,7 @@ def render_login_page():
         return redirect('/')
 
     return render_template('login.html', categories=get_categories(), user_data=get_user_data(session.get('user_id')),
-                           logged_in=yes_logged_in())
+                           logged_in=yes_logged_in(), teacher=is_teacher())
 
 
 @app.route('/logout')
@@ -202,11 +215,11 @@ def render_signup_page():
         return redirect('/login')
 
     return render_template('signup.html', categories=get_categories(), user_data=get_user_data(session.get('user_id')),
-                           logged_in=yes_logged_in())
+                           logged_in=yes_logged_in(), teacher=is_teacher())
 
 @app.route('/add_word', methods=['GET', 'POST'])
 def render_add_word_page():
     return render_template('add_word.html', categories=get_categories(), user_data=get_user_data(session.get('user_id')),
-                           logged_in=yes_logged_in())
+                           logged_in=yes_logged_in(), teacher=is_teacher())
 
 app.run(host='0.0.0.0', debug=True)

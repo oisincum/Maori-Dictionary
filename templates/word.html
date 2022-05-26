@@ -9,6 +9,7 @@
     <h2>{{ words_found[0][1] }} - {{ words_found[0][2] }}</h2>
     <h2>Definition - {{ words_found[0][4] }}</h2>
     <h3>Level - {{ words_found[0][5] }}</h3>
+    </div>
     <br>
 
     <table>
@@ -26,5 +27,6 @@
     {% endfor %}
     </table>
 
-    <h3>submitted by {{ words_found[0][7] }} on {{ words_found[0][8] }}</h3>
+    <h3>Submitted by {{ word_user_data[0][1] }} on {{ words_found[0][8] }}</h3>
+    <h2>Delete word?</h2>
 {% endblock %}
