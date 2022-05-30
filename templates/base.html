@@ -10,59 +10,58 @@
 </head>
 
 <body>
-    <div id="container">
+<div id="container">
 
-        <header>
-            <h1>{% block heading %}{% endblock %}</h1>
-        </header>
+    <header>
+        <h1>{% block heading %}{% endblock %}</h1>
+    </header>
 
-        <nav>
-            <input type="checkbox" name="drop_down_menu" />
-            <ul>
-                <li><a href="\">Home</a></li>
+    <nav>
+        <input type="checkbox" name="drop_down_menu"/>
+        <ul>
+            <li><a href="/">Home</a></li>
 
-                {% if not logged_in %}
-                    <li><a href="\login">Login</a></li>
-                    <li><a href="\signup">Signup</a></li>
-                {% else %}
-                    <li><a href="\logout">Logout</a></li>
-                {% endif %}
+            {% if not logged_in %}
+                <li><a href="/login">Login</a></li>
+                <li><a href="/signup">Signup</a></li>
+            {% else %}
+                <li><a href="/logout">Logout</a></li>
+            {% endif %}
+            <!--
+    `       will show login and signup if the user is not logged in. if the user is logged in will show logout
+             -->
 
-                {% if teacher %}
+            {% if teacher %}
                 <p4>_____________________</p4>
                 <br>
                 <br>
-                <li><a href="\add_word">Add Word</a></li>
-                {% endif %}
+                <li><a href="/add_word">Add Word</a></li>
+                <!--
+                will not show the add word link until the user is on a teacher account
+                -->
+            {% endif %}
 
-                <p4>_____________________</p4>
-                <br>
-                <br>
+            <p4>_____________________</p4>
+            <br>
+            <br>
 
-                {% for category in categories %}
-                <li><a href="\category/{{ category[0] }}">{{ category[1] }}</a></li>
-                {% endfor %}
-            </ul>
-        </nav>
+            {% for category in categories %}
+                <li><a href="/category/{{ category[0] }}">{{ category[1] }}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
 
-
-        <!--
-        =====================================================
-        == Content row of the template.                 ==
-        =====================================================
-        -->
-
-        <main>
-            {% block main%}{% endblock %}
-        </main>
+    <main>
+        {% block main %}{% endblock %}
+    </main>
 
 
-        <footer>
-            <p>
-                &copy;Oisin Cummings 2022
-            </p>
-        </footer>
+    <footer>
+        <p>
+            &copy;Oisin Cummings 2022
+        </p>
+    </footer>
 
-    </div>
+</div>
 </body>
 </html>

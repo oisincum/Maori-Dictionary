@@ -6,10 +6,14 @@
 
 {% block main %}
     <div class="">
-    <h2>{{ words_found[0][1] }} - {{ words_found[0][2] }}</h2>
-    <h2>Definition - {{ words_found[0][4] }}</h2>
-    <h3>Level - {{ words_found[0][5] }}</h3>
+        <h2>{{ words_found[0][1] }} - {{ words_found[0][2] }}</h2>
+        <h2>Definition - {{ words_found[0][4] }}</h2>
+        <h3>Level - {{ words_found[0][5] }}</h3>
     </div>
+        <!--
+        will display the maori, and english at the top of page.
+        as well as the definition and level below that.
+        -->
     <br>
 
     <table>
@@ -18,15 +22,25 @@
             <th>English</th>
             <th>Image</th>
         </tr>
-    {% for word in words_found %}
-        <tr class="">
-            <td><a href="\word/{{ word[0] }}">{{ word[1] }}</a></td>
-            <td><a href="\word/{{ word[0] }}">{{ word[2] }}</a></td>
-            <td><img src="/static/images/{{ word[6] }}"></td>
-        </tr>
-    {% endfor %}
+        {% for word in words_found %}
+            <tr class="">
+                <td><a href="\word/{{ word[0] }}">{{ word[1] }}</a></td>
+                <td><a href="\word/{{ word[0] }}">{{ word[2] }}</a></td>
+                <td><img src="/static/images/{{ word[6] }}"></td>
+            </tr>
+        {% endfor %}
     </table>
+        <!--
+        displays the maori, english and image in the table on the page.
+        -->
 
     <h3>Submitted by {{ word_user_data[0][1] }} on {{ words_found[0][8] }}</h3>
-    <h2>Delete word?</h2>
+    {% if teacher %}
+        <h2> <a href="/delete_word/{{ words_found[0][0] }}">Delete word?</a></h2>
+    {% endif %}
+        <!--
+        displays the username and when it was added.
+        as well as the delete word option if the user is a teacher.
+        -->
+
 {% endblock %}
